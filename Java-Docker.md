@@ -10,9 +10,7 @@ However, in cases where none of the aforementioned JVM command line options are 
 **As of Java SE 8u131, and in JDK 9, the JVM is Docker-aware with respect to Docker CPU limits transparently.** That means even if -XX:ParalllelGCThreads, or -XX:CICompilerCount are not specified as command line options, the JVM will apply the Docker CPU limit as the number of CPUs the JVM sees on the system. It will then adjust the number of GC threads and JIT compiler threads accordingly. If -XX:ParallelGCThreads or -XX:CICompilerCount are specified as JVM command line options, and Docker CPU limit are specified, the JVM will use the -XX:ParallelGCThreads and -XX:CICompilerCount values.
 However, a few things need to be kept in mind as many libraries and frameworks that rely on thread pools will tune the number of threads based on these numbers.
 The Docker **--cpus** flag specifies the percentage of available CPU resources a container can use. 
-Specifically it refers to the cpu-shares. It does not adjust the number of physical processors the container has access to, which is what the jdk8 runtime currently uses when setting the number of processors. **This has been fixed with JDK 10.**
-Another point to be noted is that cpu shares are enforced only when the CPU cycles are constrained. If there is no contention, then any container is free to use all of the host’s CPU time. 
-E.g. in the above example if the second container is idle, then the first container can use all of the CPU cycles, even though it was configured with fewer shares.  
+Specifically it refers to the cpu-shares. It does not adjust the number of physical processors the container has access to, which is what the jdk8 runtime currently uses when setting the number of processors whereThis has been fixed with JDK 10.Another point to be noted is that cpu shares are enforced only when the CPU cycles are constrained. If there is no contention, then any container is free to use all of the host’s CPU time. E.g. in the above example if the second container is idle, then the first container can use all of the CPU cycles, even though it was configured with fewer shares.  
 The Docker flag **--cpuset-cpus** is used to limit the cores a container can use. On a 4 core machine we can specify 0-3. We can specify a single core or even multiple cores by comma separating the index of the cores.
 
 Example:  **--cpuset-cpus=0,1** will have the runtime properly seeing 2 cores available instead of 4. 
@@ -27,8 +25,9 @@ With Java 10 came better support for Container environment. If we run our Java a
 We can control the memory with the options: **InitialRAMPercentage, MaxRAMPercentage and MinRAMPercentage.**
 
 To summarise, as for openJDK, **efforts started in Java 8 (update 131) and Java 9. However it was finally solved in Java 10 (A couple of changes have already been back-ported). Now applying CPU and memory limits to our containerized JVMs is straightforward. The JVM will detect hardware capability of the container correctly, tune itself appropriately and make a good representation of the available capacity to the application. As a result, not only CPU Sets but also CPU Shares are now examined by JVM. Furthermore, this becomes the default behaviour**, and can only be disabled via **-XX:-UseContainerSupport** option. To be sure of your particular JVM, please make sure to check the final flags.
-References:
-- https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
-- https://www.docker.com/blog/improved-docker-container-integration-with-java-10/
-- https://medium.com/@christopher.batey/cpu-considerations-for-java-applications-running-in-docker-and-kubernetes-7925865235b7
-- https://merikan.com/2019/04/jvm-in-a-container/
+
+###References:
+-https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
+-https://www.docker.com/blog/improved-docker-container-integration-with-java-10/
+-https://medium.com/@christopher.batey/cpu-considerations-for-java-applications-running-in-docker-and-kubernetes-7925865235b7
+-https://merikan.com/2019/04/jvm-in-a-container/
