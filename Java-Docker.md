@@ -28,7 +28,7 @@ We can control the memory with the options: **InitialRAMPercentage, MaxRAMPercen
 
 To summarise, as for openJDK, **efforts started in Java 8 (update 131) and Java 9. However it was finally solved in Java 10 (A couple of changes have already been back-ported). Now applying CPU and memory limits to our containerized JVMs is straightforward. The JVM will detect hardware capability of the container correctly, tune itself appropriately and make a good representation of the available capacity to the application. As a result, not only CPU Sets but also CPU Shares are now examined by JVM. Furthermore, this becomes the default behaviour**, and can only be disabled via **-XX:-UseContainerSupport** option. To be sure of your particular JVM, please make sure to check the final flags.
 References:
--https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
--https://www.docker.com/blog/improved-docker-container-integration-with-java-10/
--https://medium.com/@christopher.batey/cpu-considerations-for-java-applications-running-in-docker-and-kubernetes-7925865235b7
--https://merikan.com/2019/04/jvm-in-a-container/
+- https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
+- https://www.docker.com/blog/improved-docker-container-integration-with-java-10/
+- https://medium.com/@christopher.batey/cpu-considerations-for-java-applications-running-in-docker-and-kubernetes-7925865235b7
+- https://merikan.com/2019/04/jvm-in-a-container/
