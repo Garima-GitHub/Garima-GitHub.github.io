@@ -1,7 +1,8 @@
-# Java and Docker - Memory and CPU Limits
+# Java and Docker - Memory and Processor Limits
 
 ## As container deployments become increasingly common, it is important to understand how our applications coordinate with various Linux container technologies at runtime.
-Depending on our JVM version, we may need to do a little extra work to ensure your java runtime is aware of the **processor and memory usage limits.**
+Depending on our JVM version, we may need to do a little extra work to ensure your java runtime is aware of the processor and memory usage limits.
+
 **Until Java 8u131 and Java 9 the JVM did not recognize memory or cpu limits set by the container.  The first implementation was a experimental feature and had its flaws but in Java 10, memory limits are automatically recognized and enforced. This feature was then backported to Java-8u191.**
 For CPU limits, the JVM internally and transparently sets the number of GC threads, and JIT compiler threads.
 These can be explicitly set via command line options, **-XX:ParallelGCThreads** and **-XX:CICompilerCount**.
