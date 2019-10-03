@@ -1,3 +1,5 @@
+# Java and Docker - Memory and CPU Limits
+
 ## As container deployments become increasingly common, it is important to understand how our applications coordinate with various Linux container technologies at runtime.
 Depending on our JVM version, we may need to do a little extra work to ensure your java runtime is aware of the **processor and memory usage limits.**
 **Until Java 8u131 and Java 9 the JVM did not recognize memory or cpu limits set by the container.  The first implementation was a experimental feature and had its flaws but in Java 10, memory limits are automatically recognized and enforced. This feature was then backported to Java-8u191.**
@@ -22,7 +24,7 @@ Here, we can use the **-XX:MaxRAMFraction** flag to help calculate a better heap
 With Java 10 came better support for Container environment. If we run our Java application in a Linux container the JVM will automatically detect the Control Group memory limit with the UseContainerSupport option. 
 We can control the memory with the options: **InitialRAMPercentage, MaxRAMPercentage and MinRAMPercentage.**
 
-To summarize, as for openJDK, **efforts started in Java 8 (update 131) and Java 9. However it was finally solved in Java 10 (A couple of changes have already been back-ported). Now applying CPU and memory limits to our containerized JVMs is straightforward. The JVM will detect hardware capability of the container correctly, tune itself appropriately and make a good representation of the available capacity to the application. As a result, not only CPU Sets but also CPU Shares are now examined by JVM. Furthermore, this becomes the default behaviour**, and can only be disabled via **-XX:-UseContainerSupport** option. To be sure of your particular JVM, please make sure to check the final flags.
+To summarise, as for openJDK, **efforts started in Java 8 (update 131) and Java 9. However it was finally solved in Java 10 (A couple of changes have already been back-ported). Now applying CPU and memory limits to our containerized JVMs is straightforward. The JVM will detect hardware capability of the container correctly, tune itself appropriately and make a good representation of the available capacity to the application. As a result, not only CPU Sets but also CPU Shares are now examined by JVM. Furthermore, this becomes the default behaviour**, and can only be disabled via **-XX:-UseContainerSupport** option. To be sure of your particular JVM, please make sure to check the final flags.
 
 ### References:
 - https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
